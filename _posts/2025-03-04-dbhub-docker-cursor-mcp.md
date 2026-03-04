@@ -4,6 +4,12 @@ title: "DBHub 的 Docker 部署与 Cursor 中的 MCP 设置"
 date: 2025-03-04 10:00:00 +0800
 author: gaoxingliang
 description: "介绍如何使用 Docker 部署 DBHub 数据库 MCP 服务，并在 Cursor 编辑器中完成 MCP 配置，实现 AI 与数据库的深度集成。"
+category: 运维
+tags:
+  - Docker
+  - MCP
+  - Cursor
+  - DBHub
 ---
 
 DBHub 是由 Bytebase 开发的通用数据库 MCP（Model Context Protocol）服务器，可以让 AI 工具通过统一接口连接并查询多种数据库。本文将介绍如何通过 Docker 部署 DBHub，并在 Cursor 中完成 MCP 配置。

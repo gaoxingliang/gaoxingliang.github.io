@@ -11,6 +11,22 @@ layout: default
         <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
         <div class="post-meta">
           <time>{{ post.date | date: "%Y年%m月%d日" }}</time>
+          {% if post.category or post.categories.size > 0 %}
+          <span class="meta-sep"> · </span>
+          {% if post.category %}
+          <a href="{{ '/categories/' | relative_url }}#cat-{{ post.category | slugify }}" class="post-category">{{ post.category }}</a>
+          {% elsif post.categories.size > 0 %}
+          {% for cat in post.categories %}
+          <a href="{{ '/categories/' | relative_url }}#cat-{{ cat | slugify }}" class="post-category">{{ cat }}</a>{% unless forloop.last %}, {% endunless %}
+          {% endfor %}
+          {% endif %}
+          {% endif %}
+          {% if post.tags.size > 0 %}
+          <span class="meta-sep"> · </span>
+          {% for tag in post.tags %}
+          <a href="{{ '/tags/' | relative_url }}#tag-{{ tag | slugify }}" class="post-tag">{{ tag }}</a>{% unless forloop.last %} {% endunless %}
+          {% endfor %}
+          {% endif %}
           {% if post.excerpt %}
           <p class="excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
           {% endif %}

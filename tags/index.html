@@ -1,0 +1,33 @@
+---
+layout: default
+title: 标签
+---
+
+<div class="archive-page tags-page">
+  <div class="container">
+    <h1>标签</h1>
+    <p class="page-desc">按标签浏览文章</p>
+
+    {% assign sorted_tags = site.tags | sort %}
+    {% for tag in sorted_tags %}
+    <section class="archive-section" id="tag-{{ tag[0] | slugify }}">
+      <h2 class="archive-title">
+        <span class="archive-name">{{ tag[0] }}</span>
+        <span class="archive-count">({{ tag[1] | size }})</span>
+      </h2>
+      <ul class="post-list">
+        {% for post in tag[1] %}
+        <li class="post-item">
+          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          <span class="post-date">{{ post.date | date: "%Y-%m-%d" }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endfor %}
+
+    {% if site.tags.size == 0 %}
+    <p class="empty-state">暂无标签</p>
+    {% endif %}
+  </div>
+</div>

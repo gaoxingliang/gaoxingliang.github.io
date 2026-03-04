@@ -1,0 +1,33 @@
+---
+layout: default
+title: 分类
+---
+
+<div class="archive-page categories-page">
+  <div class="container">
+    <h1>分类</h1>
+    <p class="page-desc">按分类浏览文章</p>
+
+    {% assign sorted_categories = site.categories | sort %}
+    {% for category in sorted_categories %}
+    <section class="archive-section" id="cat-{{ category[0] | slugify }}">
+      <h2 class="archive-title">
+        <span class="archive-name">{{ category[0] }}</span>
+        <span class="archive-count">({{ category[1] | size }})</span>
+      </h2>
+      <ul class="post-list">
+        {% for post in category[1] %}
+        <li class="post-item">
+          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          <span class="post-date">{{ post.date | date: "%Y-%m-%d" }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endfor %}
+
+    {% if site.categories.size == 0 %}
+    <p class="empty-state">暂无分类</p>
+    {% endif %}
+  </div>
+</div>

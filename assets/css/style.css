@@ -301,6 +301,21 @@ body {
   font-size: 0.95rem;
 }
 
+.post-tag, .post-category {
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-right: 0.25rem;
+}
+
+.post-tag:hover, .post-category:hover {
+  color: var(--accent);
+}
+
+.post-tag::before {
+  content: "#";
+  opacity: 0.7;
+}
+
 .post-content {
   font-size: 1.05rem;
 }
@@ -467,6 +482,113 @@ body {
     align-items: flex-start;
     gap: 0.25rem;
   }
+}
+
+/* 标签 / 分类归档页 */
+.archive-page .container,
+.search-page .container {
+  max-width: var(--content-max);
+}
+
+.archive-page, .search-page {
+  padding: 4rem 0 5rem;
+}
+
+.archive-page h1, .search-page h1 {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.page-desc {
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+}
+
+.archive-section {
+  margin-bottom: 2.5rem;
+}
+
+.archive-title {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.archive-name {
+  color: var(--text);
+}
+
+.archive-count {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.empty-state {
+  color: var(--text-muted);
+}
+
+/* 搜索页 */
+.search-box-wrap {
+  margin-bottom: 2rem;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 480px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-card);
+  color: var(--text);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-result-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-result-item {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.search-result-item a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.search-result-item a:hover {
+  color: var(--accent);
+}
+
+.search-result-date {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-left: 0.5rem;
+}
+
+.search-result-excerpt {
+  margin: 0.5rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.search-empty {
+  color: var(--text-muted);
+  padding: 2rem 0;
 }
 
 /* Footer */

@@ -69,3 +69,23 @@ bundle exec jekyll serve
 
 > 若使用 Cursor 粘贴图片，会生成 `_posts/xxx.assets/`，需手动将图片移到 `assets/images/posts/` 并更新引用路径。
 
+## 标签、分类与搜索
+
+**文章 front matter 示例：**
+
+```yaml
+---
+title: "文章标题"
+category: 运维          # 单分类
+# 或
+categories: [运维, 数据库]  # 多分类
+tags:
+  - Docker
+  - MCP
+---
+```
+
+- **标签**：`/tags/` 按标签浏览
+- **分类**：`/categories/` 按分类浏览
+- **搜索**：`/search/` 客户端搜索（标题、标签、摘要）
+

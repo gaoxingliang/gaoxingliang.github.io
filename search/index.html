@@ -1,0 +1,19 @@
+---
+layout: default
+title: 搜索
+---
+
+<div class="search-page" data-search-url="{{ '/search.json' | relative_url }}">
+  <div class="container">
+    <h1>搜索</h1>
+    <div class="search-box-wrap">
+      <input type="search" id="search-input" class="search-input" placeholder="搜索标题、标签、摘要..." autofocus>
+    </div>
+    <div id="search-results" class="search-results"></div>
+    <div id="search-empty" class="search-empty" style="display:none">
+      <p>未找到相关文章</p>
+    </div>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/search.js' | relative_url }}" defer></script>
