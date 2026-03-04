@@ -1,0 +1,22 @@
+---
+layout: default
+---
+
+<div class="blog-index">
+  <div class="container">
+    <h1>博客</h1>
+    <ul class="post-list">
+      {% for post in site.posts %}
+      <li class="post-item">
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        <div class="post-meta">
+          <time>{{ post.date | date: "%Y年%m月%d日" }}</time>
+          {% if post.excerpt %}
+          <p class="excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+          {% endif %}
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>

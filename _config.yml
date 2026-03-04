@@ -1,0 +1,39 @@
+# GitHub Pages Jekyll 配置
+title: 技术博客
+description: 分享技术实践与开发心得
+baseurl: ""  # 根域名用空，子路径如 /blog 则填 /blog
+url: "https://gaoxingliang.github.io"
+
+# 构建设置
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  auto_ids: true
+  auto_id_prefix: ""
+
+# 插件 (GitHub Pages 默认支持)
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# 排除文件
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - .gitignore
+
+# 文章 permalink
+permalink: /blog/:year/:month/:day/:title/
+
+# 默认 front matter
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      author: gaoxingliang
