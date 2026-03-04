@@ -12,12 +12,6 @@ DBHub 是由 Bytebase 开发的通用数据库 MCP（Model Context Protocol）�
 
 DBHub 支持 PostgreSQL、MySQL、SQL Server、MariaDB 和 SQLite 等多种数据库，主要特性包括：
 
-- **零依赖、高 token 效率**：仅两个核心 MCP 工具，最大化上下文窗口
-- **多数据库支持**：可同时连接多种数据库
-- **安全防护**：只读模式、行数限制、查询超时
-- **安全访问**：支持 SSH 隧道和 SSL/TLS 加密
-- **内置工作台**：Web 界面执行查询和自定义工具
-
 核心 MCP 工具：
 
 - `execute_sql`：执行 SQL 查询，支持事务和安全控制
@@ -29,74 +23,51 @@ DBHub 支持 PostgreSQL、MySQL、SQL Server、MariaDB 和 SQLite 等多种数�
 
 ### 1. 使用 Docker Run
 
-**连接 PostgreSQL 示例：**
+**连接 mysql示例：**
 
 ```bash
-docker run --rm --init \
+docker run -d --restart always --init \
   --name dbhub \
-  --publish 8080:8080 \
+  --publish 7080:7080 \
   bytebase/dbhub \
   --transport http \
-  --port 8080 \
-  --dsn "postgres://user:password@localhost:5432/dbname?sslmode=disable"
+  --port 7080 \
+  --dsn "mysql://readonly_admin:your_strong_password@192.168.102.207:3307/yourdb"
+
 ```
 
-**Demo 模式（用于测试，无需真实数据库）：**
 
-```bash
-docker run --rm --init \
-  --name dbhub \
-  --publish 8080:8080 \
-  bytebase/dbhub \
-  --transport http \
-  --port 8080 \
-  --demo
+
+创建mysql使用的只读用户：
+
+```mysql
+-- 1. 创建用户（替换 your_password）
+CREATE USER 'readonly_admin'@'%' IDENTIFIED BY 'your_strong_password';
+
+-- 2. 授予全局 SELECT 权限（所有库、所有表可查）
+GRANT SELECT ON *.* TO 'readonly_admin'@'%';
+
+-- 3. 授予元数据查看权限（关键！）
+GRANT
+    SHOW DATABASES,
+        SHOW VIEW,
+        PROCESS,          -- 查看当前运行的查询（用于 performance_schema）
+        REPLICATION CLIENT -- 查看 binlog 位置（可选）
+        ON *.* TO 'readonly_admin'@'%';
+
+-- 4. （可选）允许执行存储过程（但不能修改）
+GRANT EXECUTE ON *.* TO 'readonly_admin'@'%';
+
+-- 5. 刷新权限
+FLUSH PRIVILEGES;
 ```
 
-> 若数据库在宿主机上，Docker 容器内应使用 `host.docker.internal` 替代 `localhost`：
->
-> `--dsn "postgres://user:password@host.docker.internal:5432/dbname"`
 
-### 2. 使用 Docker Compose
 
-在 `docker-compose.yml` 中添加 DBHub 服务：
+部署成功后，DBHub 会在 `http://localhost:7080` 提供：
 
-```yaml
-services:
-  dbhub:
-    image: bytebase/dbhub:latest
-    container_name: dbhub
-    ports:
-      - "8080:8080"
-    environment:
-      - DBHUB_LOG_LEVEL=info
-    command:
-      - --transport
-      - http
-      - --port
-      - "8080"
-      - --dsn
-      - "postgres://user:password@database:5432/dbname"
-    depends_on:
-      - database
-
-  database:
-    image: postgres:15-alpine
-    environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: dbname
-```
-
-启动服务：
-
-```bash
-docker-compose up -d
-```
-
-部署成功后，DBHub 会在 `http://localhost:8080` 提供：
-
-- **工作台**：`http://localhost:8080/`
-- **MCP 端点**：`http://localhost:8080/mcp`
+- **工作台**：`http://localhost:7080/`
+- **MCP 端点**：`http://localhost:7080/mcp`
 
 ---
 
@@ -116,101 +87,26 @@ Cursor 支持两种连接方式：**stdio**（本地）和 **HTTP**（远程/共
 {
   "mcpServers": {
     "dbhub": {
-      "url": "http://localhost:8080/mcp"
+      "url": "http://localhost:7080/mcp"
     }
   }
 }
 ```
 
-### 方式二：stdio 连接（本地直连）
 
-若希望 Cursor 直接启动 DBHub 进程，使用 stdio：
 
-**Windows** - 编辑 `%USERPROFILE%\.cursor\mcp.json`：
 
-```json
-{
-  "mcpServers": {
-    "dbhub": {
-      "command": "npx",
-      "args": [
-        "@bytebase/dbhub@latest",
-        "--transport",
-        "stdio",
-        "--dsn",
-        "postgres://user:password@localhost:5432/dbname"
-      ]
-    }
-  }
-}
-```
-
-**Demo 模式（无需数据库）：**
-
-```json
-{
-  "mcpServers": {
-    "dbhub": {
-      "command": "npx",
-      "args": [
-        "@bytebase/dbhub@latest",
-        "--transport",
-        "stdio",
-        "--demo"
-      ]
-    }
-  }
-}
-```
-
-### 项目级配置
-
-若希望配置仅对当前项目生效，在项目根目录创建 `.cursor/mcp.json`：
-
-```json
-{
-  "mcpServers": {
-    "project-db": {
-      "command": "npx",
-      "args": [
-        "@bytebase/dbhub@latest",
-        "--transport",
-        "stdio",
-        "--config",
-        "${workspaceFolder}/dbhub.toml"
-      ]
-    }
-  }
-}
-```
-
-### 敏感信息处理
-
-建议使用环境变量，避免在配置中写死密码：
-
-```json
-{
-  "mcpServers": {
-    "dbhub": {
-      "command": "npx",
-      "args": [
-        "@bytebase/dbhub@latest",
-        "--transport",
-        "stdio",
-        "--dsn",
-        "${DATABASE_URL}"
-      ]
-    }
-  }
-}
-```
 
 ---
 
 ## 三、验证与使用
 
 1. 保存 `mcp.json` 后，重启 Cursor 或重新加载窗口
+
 2. 在 **Cursor 设置 → Tools & MCP** 中确认 DBHub 已加载
+
+   ![MCP 设置界面]({{ '/assets/images/posts/2025-03-04-dbhub-docker-cursor-mcp/image-20260304135751925.png' | relative_url }})
+
 3. 在对话中可尝试：
    - 「数据库里有哪些 schema？」
    - 「public schema 下有哪些表？」

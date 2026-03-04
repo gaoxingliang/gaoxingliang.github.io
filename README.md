@@ -1,6 +1,6 @@
 # gaoxingliang.github.io
 
-技术博客，基于 Jekyll + GitHub Pages。
+技术博客，基于 Jekyll + GitHub Pages。外部地址： https://gaoxingliang.github.io/
 
 ## 本地运行
 
@@ -52,4 +52,20 @@ bundle exec jekyll serve
 - `_posts/` - 博客文章（Markdown）
 - `_layouts/` - 页面模板
 - `assets/css/` - 样式文件
+- `assets/images/` - 图片资源（见下方说明）
+
+## 图片资源管理
+
+| 目录 | 用途 |
+|------|------|
+| `assets/images/global/` | 全站共用（头像、Logo） |
+| `assets/images/posts/文章slug/` | 按文章分目录存放 |
+
+**文章中引用：**
+
+```markdown
+![描述]({{ '/assets/images/posts/dbhub-docker-cursor-mcp/xxx.png' | relative_url }})
+```
+
+> 若使用 Cursor 粘贴图片，会生成 `_posts/xxx.assets/`，需手动将图片移到 `assets/images/posts/` 并更新引用路径。
 
