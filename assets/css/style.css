@@ -419,6 +419,23 @@ body {
   color: var(--accent-hover);
 }
 
+/* 大屏适配 - 2K/4K 显示器拓宽内容区 */
+@media (min-width: 1920px) {
+  :root {
+    --content-max: 900px;
+    --page-max: 1600px;
+    --sidebar-width: 280px;
+  }
+}
+
+@media (min-width: 2560px) {
+  :root {
+    --content-max: 1100px;
+    --page-max: 2000px;
+    --sidebar-width: 320px;
+  }
+}
+
 /* 响应式 - 小屏隐藏 TOC 侧边栏 */
 @media (max-width: 1024px) {
   .post-layout {
@@ -612,3 +629,89 @@ body {
 .site-footer a:hover {
   color: var(--accent-hover);
 }
+
+/* ========== Rouge 语法高亮 - 深色主题 ========== */
+/* 基于 GitHub Dark / One Dark 配色，确保深色背景下关键字清晰可辨 */
+
+.highlight { background: var(--code-bg); border-radius: 8px; }
+
+/* 注释 - 灰绿色 */
+.highlight .c,
+.highlight .c1,
+.highlight .cm,
+.highlight .cs,
+.highlight .cp  { color: #6a9955; font-style: italic; }
+
+/* 关键字 - 蓝紫色 */
+.highlight .k,
+.highlight .kd,
+.highlight .kn,
+.highlight .kp,
+.highlight .kr,
+.highlight .kt,
+.highlight .kc  { color: #c586c0; font-weight: 600; }
+
+/* 字符串 - 橙黄色 */
+.highlight .s,
+.highlight .s1,
+.highlight .s2,
+.highlight .sb,
+.highlight .sc,
+.highlight .sd,
+.highlight .sh,
+.highlight .si,
+.highlight .sx  { color: #ce9178; }
+
+/* 数字 / 字面量 - 浅绿色 */
+.highlight .m,
+.highlight .mi,
+.highlight .mf,
+.highlight .mh,
+.highlight .mo,
+.highlight .il,
+.highlight .mb  { color: #b5cea8; }
+
+/* 函数名 / 方法名 - 黄色 */
+.highlight .nf,
+.highlight .fm  { color: #dcdcaa; }
+
+/* 类名 / 类型名 - 青绿色 */
+.highlight .nc,
+.highlight .nn  { color: #4ec9b0; }
+
+/* 变量名 / 普通标识符 */
+.highlight .n,
+.highlight .na,
+.highlight .nb,
+.highlight .nl  { color: #9cdcfe; }
+
+/* 操作符 - 白色 */
+.highlight .o,
+.highlight .ow  { color: #d4d4d4; }
+
+/* 内置 / 特殊名称 - 浅蓝 */
+.highlight .bp  { color: #569cd6; }
+
+/* 装饰器 / 注解 - 黄绿 */
+.highlight .nd  { color: #c8c862; }
+
+/* 错误 */
+.highlight .err { color: #f44747; background: none; }
+
+/* 通用文本 */
+.highlight .p,
+.highlight .nt,
+.highlight .nv,
+.highlight .nx  { color: #d4d4d4; }
+
+/* 属性名 (HTML/XML/YAML) - 浅蓝 */
+.highlight .na  { color: #9cdcfe; }
+
+/* 标签 (HTML) - 蓝色 */
+.highlight .nt  { color: #569cd6; }
+
+/* 字符串插值符号 */
+.highlight .se  { color: #d7ba7d; }
+
+/* YAML key */
+.highlight .l-Scalar-Plain { color: #9cdcfe; }
