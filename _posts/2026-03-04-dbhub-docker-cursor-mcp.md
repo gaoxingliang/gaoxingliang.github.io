@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "cursor项目级mcp配置和excel mcp"
-date: 2025-03-06 10:00:00 +0800
+date: 2026-03-06 10:00:00 +0800
 author: ed
 description: "cursor项目级mcp配置和excel mcp"
 category: 运维

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Cursor中的excel & word mcp使用和配置"
-date: 2025-03-26 10:00:00 +0800
+date: 2026-03-26 10:00:00 +0800
 author: ed
 description: "在cursor中使用excel 和 excel mcp来方便word excel的理解和读取。"
 category: 开发
