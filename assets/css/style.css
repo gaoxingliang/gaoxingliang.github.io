@@ -49,7 +49,8 @@ body {
 }
 
 /* Header */
-.site-header {
+
+  position: fixed;
   border-bottom: 1px solid var(--border);
   padding: 1rem 0;
 }
