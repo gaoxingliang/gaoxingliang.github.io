@@ -191,6 +191,14 @@ WHERE report_date = '2023-02-21';
 所以说最终的解决办法是源表和本地表都要加上索引才行。  
  注： federated engine无法在线加索引，需要重新创建并添加。
 
+## mysql联邦表和doris
+当和doris联合使用时，会导致doris链接无法被释放（即便客户端退出，mysql服务重启都不会释放doris链接），导致doris报错：reach user connection limit.
+解决办法是：
+```shell
+flush table t_federated_table
+```
+该命令会使用该表对应的doris链接。
+
 ## 总结
 
 本文对mysql federated engine 做了很多测试和研究，结论如下：  
