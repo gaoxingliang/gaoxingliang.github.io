@@ -12,6 +12,7 @@
       .then(function(r) { return r.json(); })
       .then(function(data) {
         searchData = Array.isArray(data) ? data : [];
+        search(searchInput.value);
       })
       .catch(function() { searchData = []; });
   }
@@ -35,6 +36,7 @@
       var text = [
         (post.title || ''),
         (post.excerpt || ''),
+        (post.content || ''),
         (Array.isArray(post.tags) ? post.tags.join(' ') : (post.tags || '')),
         (Array.isArray(post.categories) ? post.categories.join(' ') : (post.categories || ''))
       ].join(' ').toLowerCase();

@@ -8,6 +8,7 @@ layout: null
     "url": {{ post.url | relative_url | jsonify }},
     "tags": {{ post.tags | default: "" | jsonify }},
     "categories": {{ post.categories | default: "" | jsonify }},
+    "content": {{ post.content | markdownify | strip_html | normalize_whitespace | jsonify }},
     "excerpt": {{ post.excerpt | strip_html | truncate: 300 | jsonify }},
     "date": {{ post.date | date: "%Y-%m-%d" | jsonify }}
   }{% unless forloop.last %},{% endunless %}

@@ -16,3 +16,4 @@ tags:
 2. "file structure"   ctrl + L
 3. "reformat code"   alt +shift +f 
 4. "delete line"   ctrl + d
+5. "go to implementation" ctrl + left mouse click
