@@ -3,18 +3,40 @@
   var searchInput = document.getElementById('search-input');
   var resultsEl = document.getElementById('search-results');
   var emptyEl = document.getElementById('search-empty');
+  var statusEl = document.getElementById('search-status');
+  var isLoaded = false;
 
   if (!searchInput || !resultsEl) return;
 
+  var query = new URLSearchParams(location.search).get('q');
+  if (query !== null) searchInput.value = query;
+
+  function setStatus(message) {
+    if (statusEl) statusEl.textContent = message;
+  }
+
   function loadData() {
     var url = (document.querySelector('.search-page') && document.querySelector('.search-page').dataset.searchUrl) || '/search.json';
+    setStatus('正在加载搜索索引…');
+    search(searchInput.value);
     fetch(url)
-      .then(function(r) { return r.json(); })
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
       .then(function(data) {
-        searchData = Array.isArray(data) ? data : [];
+        if (!Array.isArray(data)) throw new Error('Invalid search index');
+        searchData = data;
+        isLoaded = true;
+        setStatus('');
         search(searchInput.value);
       })
-      .catch(function() { searchData = []; });
+      .catch(function() {
+        searchData = [];
+        isLoaded = false;
+        search(searchInput.value);
+        setStatus('搜索索引加载失败，请刷新页面重试。');
+      });
   }
 
   function escapeHtml(s) {
@@ -25,7 +47,7 @@
 
   function search(keyword) {
     keyword = (keyword || '').trim().toLowerCase();
-    if (!keyword) {
+    if (!isLoaded || !keyword) {
       resultsEl.innerHTML = '';
       emptyEl.style.display = 'none';
       return;

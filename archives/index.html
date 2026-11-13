@@ -1,0 +1,41 @@
+---
+layout: default
+title: 月份归档
+---
+
+{% assign monthly_posts = site.posts | group_by_exp: 'post', "post.date | date: '%Y-%m'" %}
+
+<div class="archive-page months-page">
+  <div class="container">
+    <a class="discovery-link" href="{{ '/' | relative_url }}">← 返回首页</a>
+    <h1>月份归档</h1>
+    <p class="page-desc">共 {{ site.posts | size }} 篇文章，按月份从新到旧排列。</p>
+
+    {% if monthly_posts.size > 0 %}
+    <nav class="archive-month-nav" aria-label="跳转到月份">
+      {% for month in monthly_posts %}
+      <a href="#month-{{ month.name }}">{{ month.name }}<span class="shortcut-count">{{ month.items | size }}<span class="visually-hidden"> 篇文章</span></span></a>
+      {% endfor %}
+    </nav>
+    {% endif %}
+
+    {% for month in monthly_posts %}
+    <section class="archive-section" id="month-{{ month.name }}" aria-labelledby="heading-{{ month.name }}">
+      <h2 class="archive-title" id="heading-{{ month.name }}">
+        <span class="archive-name">{{ month.name | replace: '-', ' 年 ' }} 月</span>
+        <span class="archive-count">({{ month.items | size }} 篇)</span>
+      </h2>
+      <ul class="post-list">
+        {% for post in month.items %}
+        <li class="post-item">
+          <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+          <time class="post-date" datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: '%Y-%m-%d' }}</time>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% else %}
+    <p class="empty-state">暂无文章</p>
+    {% endfor %}
+  </div>
+</div>

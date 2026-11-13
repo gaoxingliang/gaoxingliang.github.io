@@ -5,10 +5,10 @@ layout: default
 <div class="blog-index">
   <div class="container">
     <h1>博客</h1>
-    <ul class="post-list">
+    <ul class="blog-post-list">
       {% for post in site.posts %}
-      <li class="post-item">
-        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      <li class="blog-post-item">
+        <h2 class="blog-post-title"><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h2>
         <div class="post-meta">
           <time>{{ post.date | date: "%Y年%m月%d日" }}</time>
           {% if post.category or post.categories.size > 0 %}
