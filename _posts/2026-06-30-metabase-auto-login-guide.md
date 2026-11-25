@@ -204,6 +204,7 @@ public class MetabaseSessionGenerator {
      * 根据邮箱查询用户 ID
      */
     private Integer getUserIdByEmail(String email) {
+        
         Integer userId = metabaseJdbcTemplate.query(
                 "SELECT id FROM core_user WHERE email = ?",
                 rs -> rs.next() ? rs.getInt("id") : null,
