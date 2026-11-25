@@ -204,11 +204,19 @@ public class MetabaseSessionGenerator {
      * 根据邮箱查询用户 ID
      */
     private Integer getUserIdByEmail(String email) {
-        return metabaseJdbcTemplate.query(
-                "SELECT id FROM core_user WHERE email = ? and is_active = true ",
+        Integer userId = metabaseJdbcTemplate.query(
+                "SELECT id FROM core_user WHERE email = ?",
                 rs -> rs.next() ? rs.getInt("id") : null,
                 email
         );
+        if (userId != null) {
+            // always keep the user as superuser and active
+            metabaseJdbcTemplate.update(
+                    "UPDATE core_user SET is_active = true, is_superuser=true  WHERE id = ?",
+                    userId
+            );
+        }
+        return userId;
     }
 
     /**
